@@ -9,6 +9,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <h1 className="App-title">Welcome to BuoyBuddy</h1>
+          <h2>Your Official Source of Buoy Hotness</h2>
         </header>
         <BuoyList />
       </div>

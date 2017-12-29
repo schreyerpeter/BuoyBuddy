@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import Buoy from './Buoy';
+
 const propTypes = {
   buoyData: PropTypes.shape({
     data: PropTypes.shape({
@@ -15,7 +17,8 @@ class BuoyList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataSource: []
+      dataSource: [],
+      hasError: false
     };
   }
   componentDidMount() {
@@ -23,15 +26,18 @@ class BuoyList extends Component {
   }
   componentDidUpdate() {
     const { buoyData } = this.props;
-    if (this.state.dataSource.length === 0 && buoyData.buoys.data.rss) {
+    if (this.state.dataSource.length === 0 && buoyData.buoys.data && buoyData.buoys.data.rss && buoyData.buoys.hasError === false) {
       this.setState({ dataSource: buoyData.buoys.data.rss.channel[0].item });
-    }
+    } else if (buoyData.buoys.hasError === true) this.setState({hasError: true})
   }
   render() {
-    const buoysMap = this.state.dataSource.map(buoy => (
-      <div key={buoy.guid[0]['_']}>{buoy.title[0]}</div>
-    ));
-    return buoysMap;
+    const buoysMap = this.state.dataSource.map(buoy => <Buoy key={buoy.guid[0]['_']} buoyData={buoy} />);
+    return (
+        <div>
+            {!this.state.hasError && buoysMap}
+            {this.state.hasError && <div>There was an error fetching your data.</div>}
+        </div>
+    );
   }
 }
 
