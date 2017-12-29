@@ -8,8 +8,8 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <h1 className="App-title">Welcome to BuoyBuddy</h1>
-          <h2>Your Official Source of Buoy Hotness</h2>
+          <h1>Welcome to BuoyBuddy</h1>
+          <h5>Your Official Source of Buoy Hotness</h5>
         </header>
         <BuoyList />
       </div>

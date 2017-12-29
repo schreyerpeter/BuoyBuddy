@@ -30,13 +30,25 @@ class BuoyList extends Component {
       this.setState({ dataSource: buoyData.buoys.data.rss.channel[0].item });
     } else if (buoyData.buoys.hasError === true) this.setState({hasError: true})
   }
+  handleHover = (id) => {
+    console.log(id)
+  }
   render() {
-    const buoysMap = this.state.dataSource.map(buoy => <Buoy key={buoy.guid[0]['_']} buoyData={buoy} />);
+    const buoysMap = this.state.dataSource.map(buoy => <Buoy handleHover={this.handleHover} key={buoy.guid[0]['_']} buoyData={buoy} />);
     return (
-        <div>
-            {!this.state.hasError && buoysMap}
-            {this.state.hasError && <div>There was an error fetching your data.</div>}
-        </div>
+      <div>
+        {!this.state.hasError && 
+          <div id='buoy_list'>
+            <h4>
+              Buoys within 100 nautical miles of 40°N, 73°W
+            </h4>
+            <ul>
+                {buoysMap}
+            </ul>
+          </div>
+        }
+        {this.state.hasError && <div>There was an error fetching your data.</div>}
+      </div>
     );
   }
 }

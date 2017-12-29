@@ -12,13 +12,16 @@ const propTypes = {
 }
 
 class Buoy extends Component {
+    handleHover = (id) => {
+        this.props.handleHover(id);
+    }
     render() {
         const { buoyData } = this.props;
         return (
-            <div>
-                <p>{buoyData.title[0]}</p>
-                <div>{ReactHtmlParser(buoyData.description[0])}</div>
-            </div>
+            <li>
+                <div className='buoy' style={{width: '100%'}} onMouseEnter={this.handleHover.bind(this, buoyData.guid[0]['_'])}>{buoyData.title[0]}</div>
+                {false && <div>{ReactHtmlParser(buoyData.description[0])}</div>}
+            </li>
         )
     }
 }

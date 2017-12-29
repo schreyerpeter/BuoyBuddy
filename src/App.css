@@ -1,18 +1,30 @@
-.App {
-  text-align: center;
-}
-
 .App-header {
-  background-color: #222;
-  height: 60px;
+  text-align: center;
+  height: 100px;
   padding: 20px;
-  color: white;
-}
-
-.App-title {
-  font-size: 1.5em;
+  color: navy;
+  background: linear-gradient(red, white);
 }
 
 .App-intro {
   font-size: large;
+}
+
+.buoy {
+  cursor: pointer;
+}
+
+.buoy:hover {
+  color: red;
+}
+
+#buoy_list {
+  justify-content: center;
+  flex-direction: column;
+  display: flex;
+  width: 500px;
+}
+
+#buoy_list > h4 {
+  text-align: center;
 }
