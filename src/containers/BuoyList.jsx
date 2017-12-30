@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { fetchBuoys } from '../actions';
+import { fetchBuoys, addFavorite, removeFavorite } from '../actions';
 import BuoysListComponent from '../components/BuoyList';
 
 const mapStateToProps = buoyData => {
@@ -11,7 +11,7 @@ const mapStateToProps = buoyData => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ fetchBuoys }, dispatch);
+  return bindActionCreators({ fetchBuoys, addFavorite, removeFavorite }, dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BuoysListComponent);

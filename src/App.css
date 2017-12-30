@@ -10,12 +10,16 @@
   font-size: large;
 }
 
-.buoy {
-  cursor: pointer;
+.buoy-item {
+  display: flex;
 }
 
-.buoy:hover {
+.buoy-item:hover {
   color: red;
+}
+
+.favorite-button {
+  cursor: pointer;
 }
 
 #buoy_list {

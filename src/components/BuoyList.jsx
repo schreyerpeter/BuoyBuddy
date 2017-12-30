@@ -18,7 +18,8 @@ class BuoyList extends Component {
     super(props);
     this.state = {
       dataSource: [],
-      hasError: false
+      hasError: false,
+      favorites: []
     };
   }
   componentDidMount() {
@@ -26,15 +27,26 @@ class BuoyList extends Component {
   }
   componentDidUpdate() {
     const { buoyData } = this.props;
-    if (this.state.dataSource.length === 0 && buoyData.buoys.data && buoyData.buoys.data.rss && buoyData.buoys.hasError === false) {
+    if (this.state.dataSource.length === 0 && buoyData.buoys.data && buoyData.buoys.data.rss && !buoyData.buoys.hasError) {
       this.setState({ dataSource: buoyData.buoys.data.rss.channel[0].item });
-    } else if (buoyData.buoys.hasError === true) this.setState({hasError: true})
+    } else if (buoyData.buoys.hasError) this.setState({hasError: true})
   }
-  handleHover = (id) => {
-    console.log(id)
+  handleClick = id => {
+    const { favorites } = this.state;
+    if (favorites.indexOf(id) === -1) {
+      this.setState({
+        favorites: favorites.concat(id)}, 
+        this.props.addFavorite(id));
+      return true;
+    } else {
+      this.setState({
+        favorites: favorites.filter(itemId => itemId !== id)},
+        this.props.removeFavorite(id));
+      return false;
+    }
   }
   render() {
-    const buoysMap = this.state.dataSource.map(buoy => <Buoy handleHover={this.handleHover} key={buoy.guid[0]['_']} buoyData={buoy} />);
+    const buoysMap = this.state.dataSource.map(buoy => <Buoy handleClick={this.handleClick} key={buoy.guid[0]['_']} buoyData={buoy} />);
     return (
       <div>
         {!this.state.hasError && 
