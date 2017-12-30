@@ -20,12 +20,12 @@ export const addFavorite = id => dispatch => {
   dispatch({
     type: actionTypes.ADD_FAVORITE,
     payload: id
-  })
-}
+  });
+};
 
 export const removeFavorite = id => dispatch => {
   dispatch({
     type: actionTypes.REMOVE_FAVORITE,
     payload: id
-  })
-}
+  });
+};

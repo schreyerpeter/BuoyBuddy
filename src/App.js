@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import BuoyList from './containers/BuoyList';
+import FavoritesList from './containers/FavoritesList';
 import './App.css';
 
 class App extends Component {
@@ -11,7 +12,10 @@ class App extends Component {
           <h1>Welcome to BuoyBuddy</h1>
           <h5>Your Official Source of Buoy Hotness</h5>
         </header>
-        <BuoyList />
+        <div id="body">
+          <BuoyList />
+          <FavoritesList />
+        </div>
       </div>
     );
   }
