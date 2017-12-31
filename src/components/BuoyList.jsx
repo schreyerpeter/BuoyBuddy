@@ -54,11 +54,13 @@ class BuoyList extends Component {
       />
     ));
     return (
-      <div>
+      <div id="buoys_container">
         {!this.state.hasError && (
-          <div id="buoy_list">
-            <h4>Buoys within 100 nautical miles of 40°N, 73°W</h4>
-            <ul>{buoysMap}</ul>
+          <div>
+            <h4 id="buoys_title">
+              Buoys within 100 nautical miles of 40°N, 73°W
+            </h4>
+            <div id="buoys_list_container">{buoysMap}</div>
           </div>
         )}
         {this.state.hasError && (

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ReactHtmlParser from 'react-html-parser';
 
 const propTypes = {
   description: PropTypes.arrayOf(PropTypes.string),
@@ -16,11 +15,11 @@ class Buoy extends Component {
     super(props);
     this.state = {
       selected: false,
-      favorited: false
+      favorite: false
     };
   }
   handleClick = id => {
-    this.setState({ favorited: this.props.handleClick(id) });
+    this.setState({ favorite: this.props.handleClick(id) });
   };
   handleMouseEnter = () => {
     this.setState({
@@ -34,26 +33,28 @@ class Buoy extends Component {
   };
   render() {
     const { buoyData } = this.props;
-    const buttonText = this.state.favorited
-      ? 'Remove from Favorites'
-      : 'Add to Favorites';
+    const { favorite, selected } = this.state;
+    const buttonText = favorite ? 'Remove from Favorites' : 'Add to Favorites';
     return (
-      <li
+      <div
         className="buoy-item"
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
       >
-        <div className="buoy-title">{buoyData.title[0]}</div>
-        {this.state.selected && (
-          <button
-            className="favorite-button"
-            onClick={this.handleClick.bind(this, buoyData.guid[0]['_'])}
-          >
-            {buttonText}
-          </button>
-        )}
-        {false && <div>{ReactHtmlParser(buoyData.description[0])}</div>}
-      </li>
+        <div className={`buoy-item-title${favorite ? '-favorite' : ''}`}>
+          {buoyData.title[0]}
+        </div>
+        <div className="button-container">
+          {selected && (
+            <button
+              className="favorite-button"
+              onClick={this.handleClick.bind(this, buoyData.guid[0]['_'])}
+            >
+              {buttonText}
+            </button>
+          )}
+        </div>
+      </div>
     );
   }
 }
