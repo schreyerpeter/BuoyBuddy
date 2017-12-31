@@ -1,3 +1,7 @@
+html, body, #root, .App {
+  height: 100%;
+}
+
 .App-header {
   text-align: center;
   height: 100px;
@@ -10,11 +14,21 @@
   font-size: large;
 }
 
-.buoy {
-  cursor: pointer;
+#body {
+  display: flex;
+  justify-content: space-around;
+  background: linear-gradient(white, navy);
+  height: 100%;
 }
 
-.buoy:hover {
+.buoy-item {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  min-height: 30px;
+}
+
+.buoy-item:hover {
   color: red;
 }
 
@@ -22,9 +36,63 @@
   justify-content: center;
   flex-direction: column;
   display: flex;
-  width: 500px;
+  flex: 1;
+  padding: 10px;
+  min-width: 100px;
 }
 
-#buoy_list > h4 {
+#buoys_title {
   text-align: center;
+}
+
+.favorite-button {
+  cursor: pointer;
+  width: 90px;
+  height: 30px;
+  border-radius: 90px;
+}
+
+.button-container {
+  width: 100px;
+}
+
+#favorites_container, #buoys_container {
+  min-width: 100px;
+  max-width: 500px;
+  margin: 10px;
+}
+
+#favorites_title {
+  text-align: center;
+}
+
+#favorites_list, #buoys_list_container {
+  display: flex;
+  flex-direction: column;
+  max-height: 400px;
+  overflow-y: scroll;
+  border: 1px solid black;
+  background: white;
+}
+
+.favorite, .buoy-item-title, .buoy-item-title-favorite {
+  font-size: 13px;
+  height: 100%;
+}
+
+.buoy-item-title-favorite {
+  font-style: italic;
+  text-decoration: underline;
+}
+
+.favorite:not(:last-child) {
+  border-bottom: 1px solid black;
+}
+
+.favorite, .buoy-item {
+  padding: 5px;
+}
+
+.bold {
+  font-weight: bold;
 }

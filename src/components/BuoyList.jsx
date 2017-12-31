@@ -25,29 +25,47 @@ class BuoyList extends Component {
     this.props.fetchBuoys();
   }
   componentDidUpdate() {
-    const { buoyData } = this.props;
-    if (this.state.dataSource.length === 0 && buoyData.buoys.data && buoyData.buoys.data.rss && buoyData.buoys.hasError === false) {
-      this.setState({ dataSource: buoyData.buoys.data.rss.channel[0].item });
-    } else if (buoyData.buoys.hasError === true) this.setState({hasError: true})
+    const { buoys } = this.props;
+    if (
+      this.state.dataSource.length === 0 &&
+      buoys.data &&
+      buoys.data.rss &&
+      !buoys.hasError
+    ) {
+      this.setState({ dataSource: buoys.data.rss.channel[0].item });
+    } else if (buoys.hasError) this.setState({ hasError: true });
   }
-  handleHover = (id) => {
-    console.log(id)
-  }
+  handleClick = id => {
+    const { favorites } = this.props;
+    if (favorites.indexOf(id) === -1) {
+      this.props.addFavorite(id);
+      return true;
+    } else {
+      this.props.removeFavorite(id);
+      return false;
+    }
+  };
   render() {
-    const buoysMap = this.state.dataSource.map(buoy => <Buoy handleHover={this.handleHover} key={buoy.guid[0]['_']} buoyData={buoy} />);
+    const buoysMap = this.state.dataSource.map(buoy => (
+      <Buoy
+        handleClick={this.handleClick}
+        key={buoy.guid[0]['_']}
+        buoyData={buoy}
+      />
+    ));
     return (
-      <div>
-        {!this.state.hasError && 
-          <div id='buoy_list'>
-            <h4>
+      <div id="buoys_container">
+        {!this.state.hasError && (
+          <div>
+            <h4 id="buoys_title">
               Buoys within 100 nautical miles of 40°N, 73°W
             </h4>
-            <ul>
-                {buoysMap}
-            </ul>
+            <div id="buoys_list_container">{buoysMap}</div>
           </div>
-        }
-        {this.state.hasError && <div>There was an error fetching your data.</div>}
+        )}
+        {this.state.hasError && (
+          <div>There was an error fetching your data.</div>
+        )}
       </div>
     );
   }
