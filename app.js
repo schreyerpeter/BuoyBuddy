@@ -34,8 +34,13 @@ app.get('/favorites', (req,res) => {
         favorites
         .find({})
         .toArray(function(error, documents) {
-            res.send(documents);
-            db.close();
+            if (error) {
+                res.sendStatus(400);
+                db.close();
+            } else {
+                res.send(documents);
+                db.close();
+            }
         })
     })
 })
@@ -50,10 +55,10 @@ app.post('/favorites/:id', (req,res) => {
         }, function(error, results){
           if (error){
             db.close();
-            res.send("Something went wrong");
+            res.sendStatus(400);
           } else {
             db.close();
-            res.send("Successful post");
+            res.sendStatus(200);
           }
         })
     })

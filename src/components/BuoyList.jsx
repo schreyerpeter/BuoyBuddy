@@ -36,12 +36,15 @@ class BuoyList extends Component {
     } else if (buoys.hasError) this.setState({ hasError: true });
   }
   handleClick = id => {
-    const { favorites } = this.props;
+    const { favorites, addFavorite, removeFavorite } = this.props;
+    const { dataSource } = this.state;
     if (favorites.indexOf(id) === -1) {
-      this.props.addFavorite(id);
+      const selectedFavorite = dataSource.filter(buoy => buoy.guid[0]['_'] === id)[0];
+      console.log(selectedFavorite)
+      addFavorite(selectedFavorite);
       return true;
     } else {
-      this.props.removeFavorite(id);
+      removeFavorite(id);
       return false;
     }
   };
