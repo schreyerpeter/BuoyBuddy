@@ -3,11 +3,13 @@ import ReactHtmlParser from 'react-html-parser';
 import PropTypes from 'prop-types';
 
 const propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
       title: PropTypes.array,
       description: PropTypes.array,
       guid: PropTypes.array
-    }))
+    })
+  )
 };
 
 class Favorite extends Component {

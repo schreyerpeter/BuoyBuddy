@@ -63,5 +63,41 @@ app.post('/favorites/:id', (req,res) => {
         })
     })
 });
+app.delete('/favorites/:id', (req,res) => {
+    MongoClient.connect(url, function(err, db){
+        assert.equal(null,err);
+        const buoyBuddyDb = db.db('buoybuddy');
+        const favorites = buoyBuddyDb.collection('favorites');
+        favorites
+        .deleteOne({
+          id: req.params.id
+        }, function(error, results){
+          if (error){
+            db.close();
+            res.sendStatus(400);
+          } else {
+            db.close();
+            res.sendStatus(200);
+          }
+        })
+    })
+});
+app.delete('/favorites', (req,res) => {
+    MongoClient.connect(url, function(err, db){
+        assert.equal(null,err);
+        const buoyBuddyDb = db.db('buoybuddy');
+        const favorites = buoyBuddyDb.collection('favorites');
+        favorites
+        .deleteMany({}, function(error, results){
+          if (error){
+            db.close();
+            res.sendStatus(400);
+          } else {
+            db.close();
+            res.sendStatus(200);
+          }
+        })
+    })
+});
 
 app.listen(process.env.PORT || 3001);
