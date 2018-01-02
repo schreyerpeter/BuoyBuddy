@@ -15,7 +15,7 @@ class Buoy extends Component {
     super(props);
     this.state = {
       selected: false,
-      favorite: false
+      favorite: props.isFavorite
     };
   }
   handleClick = id => {
