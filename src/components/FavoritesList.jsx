@@ -4,13 +4,16 @@ import PropTypes from 'prop-types';
 import Favorite from './Favorite';
 
 const propTypes = {
-  favorites: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string,
-      id: PropTypes.string,
-      description: PropTypes.string
-    })
-  ),
+  favorites: PropTypes.shape({
+    data: PropTypes.arrayOf(
+      PropTypes.shape({
+        title: PropTypes.string,
+        id: PropTypes.string,
+        description: PropTypes.string
+      })
+    ),
+    isFetching: PropTypes.bool
+  }),
   buoys: PropTypes.shape({
     title: PropTypes.array,
     description: PropTypes.array
@@ -31,9 +34,9 @@ class FavoritesList extends Component {
       buoys.data &&
       buoys.data.rss &&
       buoys.data.rss.channel[0].item &&
-      favorites.length > 0;
+      favorites.data.length > 0;
     if (hasData) {
-      favoriteBuoyList = favorites.map(favoriteBuoy => {
+      favoriteBuoyList = favorites.data.map(favoriteBuoy => {
         const favoriteBuoyData = buoys.data.rss.channel[0].item.filter(
           b => b.guid[0]['_'] === favoriteBuoy.id
         );
@@ -51,8 +54,16 @@ class FavoritesList extends Component {
     }
     return favoriteBuoyList.length > 0 ? (
       <div id="favorites_container">
-        <h4 id="favorites_title">Your Favorites</h4>
+        <div id="favorites_header">
+          <h4 id="favorites_title">Your Favorites</h4>
+        </div>
         <div id="favorites_list">{favoriteBuoyList}</div>
+        <button
+          id="remove_favorites_button"
+          onClick={this.props.removeAllFavorites}
+        >
+          Clear All Favorites
+        </button>
       </div>
     ) : null;
   }

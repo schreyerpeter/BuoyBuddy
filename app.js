@@ -6,7 +6,8 @@ const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 
 const app = express();
-const url = 'mongodb://localhost:27017/buoybuddy' || process.env.MONGOLAB_URI;
+const url = 'mongodb://BuoyBuddy:BuoyBuddy2018@ds241677.mlab.com:41677/buoybuddy';
+//Use this for local db 'mongodb://localhost:27017/buoybuddy'
 
 app.use(bodyParser());
 app.use(express.static('public'));
@@ -100,4 +101,4 @@ app.delete('/favorites', (req,res) => {
     })
 });
 
-app.listen(process.env.PORT || 3001);
+app.listen(3001);

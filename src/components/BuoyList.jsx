@@ -17,8 +17,7 @@ class BuoyList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataSource: [],
-      hasError: false
+      dataSource: []
     };
   }
   componentDidMount() {
@@ -38,7 +37,7 @@ class BuoyList extends Component {
   handleClick = id => {
     const { favorites, addFavorite, removeFavorite } = this.props;
     const { dataSource } = this.state;
-    if (favorites.filter(fav => fav.id === id).length === 0) {
+    if (favorites.data.filter(fav => fav.id === id).length === 0) {
       const selectedFavorite = dataSource.filter(
         buoy => buoy.guid[0]['_'] === id
       )[0];
@@ -50,26 +49,30 @@ class BuoyList extends Component {
     }
   };
   render() {
+    const { hasError, isFetching, favorites } = this.props;
     const buoysMap = this.state.dataSource.map(buoy => {
       const isFavorite =
-        this.props.favorites.filter(b => b.id === buoy.guid[0]['_']).length > 0;
+        favorites.data.filter(b => b.id === buoy.guid[0]['_']).length > 0;
       return (
         <Buoy
           handleClick={this.handleClick}
           key={buoy.guid[0]['_']}
           buoyData={buoy}
           isFavorite={isFavorite}
+          inProgress={favorites.inProgress}
         />
       );
     });
     return (
       <div id="buoys_container">
         <h4 id="buoys_title">Buoys within 100 nautical miles of 40°N, 73°W</h4>
-        {!this.state.hasError && (
-          <div id="buoys_list_container">{buoysMap}</div>
-        )}
-        {this.state.hasError && (
-          <div>There was an error fetching your data.</div>
+        {isFetching && <div>Loading...</div>}
+        {!hasError &&
+          !isFetching && <div id="buoys_list_container">{buoysMap}</div>}
+        {hasError && (
+          <div>
+            There was an error fetching your data - please refresh your browser.
+          </div>
         )}
       </div>
     );
