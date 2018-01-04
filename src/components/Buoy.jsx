@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import BuoyIcon from '../resources/buoy.ico';
+
 const propTypes = {
   description: PropTypes.arrayOf(PropTypes.string),
   'georss:point': PropTypes.arrayOf(PropTypes.string),
@@ -15,11 +17,16 @@ class Buoy extends Component {
     super(props);
     this.state = {
       selected: false,
-      favorite: props.isFavorite
+      isFavorite: props.isFavorite
     };
   }
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      isFavorite: nextProps.isFavorite
+    });
+  }
   handleClick = id => {
-    this.setState({ favorite: this.props.handleClick(id) });
+    this.setState({ isFavorite: this.props.handleClick(id) });
   };
   handleMouseEnter = () => {
     this.setState({
@@ -32,27 +39,31 @@ class Buoy extends Component {
     });
   };
   render() {
-    const { buoyData } = this.props;
-    const { favorite, selected } = this.state;
-    const buttonText = favorite ? 'Remove from Favorites' : 'Add to Favorites';
+    const { buoyData, inProgress } = this.props;
+    const { isFavorite, selected } = this.state;
+    const buttonText = isFavorite
+      ? 'Remove from Favorites'
+      : 'Add to Favorites';
+    const className = `buoy-item-title${isFavorite ? '-favorite' : ''}`;
+    const selectedElementContents = inProgress ? (
+      <img className="loading" alt="Loading Icon" src={BuoyIcon} />
+    ) : (
+      <button
+        className="favorite-button"
+        onClick={this.handleClick.bind(this, buoyData.guid[0]['_'])}
+      >
+        {buttonText}
+      </button>
+    );
     return (
       <div
         className="buoy-item"
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
       >
-        <div className={`buoy-item-title${favorite ? '-favorite' : ''}`}>
-          {buoyData.title[0]}
-        </div>
+        <div className={className}>{buoyData.title[0]}</div>
         <div className="button-container">
-          {selected && (
-            <button
-              className="favorite-button"
-              onClick={this.handleClick.bind(this, buoyData.guid[0]['_'])}
-            >
-              {buttonText}
-            </button>
-          )}
+          {selected && selectedElementContents}
         </div>
       </div>
     );

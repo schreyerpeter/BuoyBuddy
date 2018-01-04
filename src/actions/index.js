@@ -3,6 +3,9 @@ import axios from 'axios';
 import * as actionTypes from '../actionTypes';
 
 export const fetchBuoys = () => async dispatch => {
+  dispatch({
+    type: actionTypes.FETCH_BUOYS_FETCHING
+  });
   try {
     const request = await axios.get('/buoys');
     dispatch({
@@ -17,6 +20,9 @@ export const fetchBuoys = () => async dispatch => {
 };
 
 export const fetchFavorites = () => async dispatch => {
+  dispatch({
+    type: actionTypes.FETCH_FAVORITES_FETCHING
+  });
   try {
     const request = await axios.get('/favorites');
     dispatch({
@@ -31,8 +37,11 @@ export const fetchFavorites = () => async dispatch => {
 };
 
 export const addFavorite = favorite => async dispatch => {
+  dispatch({
+    type: actionTypes.ADD_FAVORITE_IN_PROGRESS
+  });
   try {
-    const request = await axios.post(`/favorites/${favorite.guid[0]['_']}`);
+    await axios.post(`/favorites/${favorite.guid[0]['_']}`);
     dispatch({
       type: actionTypes.ADD_FAVORITE_SUCCESS,
       payload: {
@@ -47,8 +56,11 @@ export const addFavorite = favorite => async dispatch => {
 };
 
 export const removeFavorite = id => async dispatch => {
+  dispatch({
+    type: actionTypes.REMOVE_FAVORITE_IN_PROGRESS
+  });
   try {
-    const request = await axios.delete(`/favorites/${id}`);
+    await axios.delete(`/favorites/${id}`);
     dispatch({
       type: actionTypes.REMOVE_FAVORITE_SUCCESS,
       payload: id
@@ -62,7 +74,7 @@ export const removeFavorite = id => async dispatch => {
 
 export const removeAllFavorites = () => async dispatch => {
   try {
-    const request = await axios.delete(`/favorites`);
+    await axios.delete(`/favorites`);
     dispatch({
       type: actionTypes.REMOVE_ALL_FAVORITES_SUCCESS
     });
