@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Buoy from './Buoy';
 
 const propTypes = {
-  buoyData: PropTypes.shape({
+  allBuoys: PropTypes.shape({
     data: PropTypes.shape({
       rss: PropTypes.shape({
         channel: PropTypes.array
@@ -24,20 +24,20 @@ class BuoyList extends Component {
     this.props.fetchBuoys();
   }
   componentDidUpdate() {
-    const { buoys } = this.props;
+    const { allBuoys } = this.props;
     if (
       this.state.dataSource.length === 0 &&
-      buoys.data &&
-      buoys.data.rss &&
-      !buoys.hasError
+      allBuoys.data &&
+      allBuoys.data.rss &&
+      !allBuoys.hasError
     ) {
-      this.setState({ dataSource: buoys.data.rss.channel[0].item });
+      this.setState({ dataSource: allBuoys.data.rss.channel[0].item });
     }
   }
   handleClick = id => {
-    const { favorites, addFavorite, removeFavorite } = this.props;
+    const { favoriteBuoys, addFavorite, removeFavorite } = this.props;
     const { dataSource } = this.state;
-    if (favorites.data.filter(fav => fav.id === id).length === 0) {
+    if (favoriteBuoys.data.filter(fav => fav.id === id).length === 0) {
       const selectedFavorite = dataSource.filter(
         buoy => buoy.guid[0]['_'] === id
       )[0];
@@ -49,17 +49,17 @@ class BuoyList extends Component {
     }
   };
   render() {
-    const { hasError, isFetching, favorites } = this.props;
+    const { hasError, isFetching, favoriteBuoys } = this.props;
     const buoysMap = this.state.dataSource.map(buoy => {
       const isFavorite =
-        favorites.data.filter(b => b.id === buoy.guid[0]['_']).length > 0;
+        favoriteBuoys.data.filter(b => b.id === buoy.guid[0]['_']).length > 0;
       return (
         <Buoy
           handleClick={this.handleClick}
           key={buoy.guid[0]['_']}
           buoyData={buoy}
           isFavorite={isFavorite}
-          inProgress={favorites.inProgress}
+          inProgress={favoriteBuoys.inProgress}
         />
       );
     });

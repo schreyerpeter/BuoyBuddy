@@ -3,8 +3,8 @@ import buoyReducer from './buoys';
 import favoritesReducer from './favorites';
 
 const buoyBuddyApp = combineReducers({
-  buoys: buoyReducer,
-  favorites: favoritesReducer
+  allBuoys: buoyReducer,
+  favoriteBuoys: favoritesReducer
 });
 
 export default buoyBuddyApp;

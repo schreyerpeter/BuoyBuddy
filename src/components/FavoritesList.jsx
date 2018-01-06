@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Favorite from './Favorite';
 
 const propTypes = {
-  favorites: PropTypes.shape({
+  favoriteBuoys: PropTypes.shape({
     data: PropTypes.arrayOf(
       PropTypes.shape({
         title: PropTypes.string,
@@ -14,7 +14,7 @@ const propTypes = {
     ),
     isFetching: PropTypes.bool
   }),
-  buoys: PropTypes.shape({
+  allBuoys: PropTypes.shape({
     title: PropTypes.array,
     description: PropTypes.array
   }),
@@ -27,17 +27,17 @@ class FavoritesList extends Component {
     this.props.fetchFavorites();
   }
   render() {
-    const { favorites, buoys } = this.props;
+    const { favoriteBuoys, allBuoys } = this.props;
     let favoriteBuoyList = [];
     const hasData =
-      buoys &&
-      buoys.data &&
-      buoys.data.rss &&
-      buoys.data.rss.channel[0].item &&
-      favorites.data.length > 0;
+      allBuoys &&
+      allBuoys.data &&
+      allBuoys.data.rss &&
+      allBuoys.data.rss.channel[0].item &&
+      favoriteBuoys.data.length > 0;
     if (hasData) {
-      favoriteBuoyList = favorites.data.map(favoriteBuoy => {
-        const favoriteBuoyData = buoys.data.rss.channel[0].item.filter(
+      favoriteBuoyList = favoriteBuoys.data.map(favoriteBuoy => {
+        const favoriteBuoyData = allBuoys.data.rss.channel[0].item.filter(
           b => b.guid[0]['_'] === favoriteBuoy.id
         );
         if (favoriteBuoyData.length === 0) {
