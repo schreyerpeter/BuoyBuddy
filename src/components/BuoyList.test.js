@@ -83,8 +83,8 @@ describe('BuoyList', () => {
       <BuoyList {...props} favoriteBuoys={favoriteBuoys} />
     );
     wrapper.setState({
-        dataSource: [{ guid: [{ _: 'NDBC-PHBP1-20180106221801' }] }]
-      });
+      dataSource: [{ guid: [{ _: 'NDBC-PHBP1-20180106221801' }] }]
+    });
     expect(wrapper.instance().handleClick('NDBC-PHBP1-20180106221801')).toEqual(
       true
     );

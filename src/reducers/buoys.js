@@ -14,16 +14,17 @@ export default function(
       return Object.assign({}, state, { isFetching: true });
     case actionTypes.FETCH_BUOYS_SUCCESS:
       let data = {};
-      try {
-        xml2js.parseString(action.payload.data, { trim: true }, function(
-          err,
-          result
-        ) {
-          data = result;
-        });
-      } catch (error) {
-        return Object.assign({}, state, { hasError: true, isFetching: false });
-      }
+      xml2js.parseString(action.payload.data, { trim: true }, function(
+        err,
+        result
+      ) {
+        if (err)
+          return Object.assign({}, state, {
+            hasError: true,
+            isFetching: false
+          });
+        data = result;
+      });
       return Object.assign({}, state, { data, isFetching: false });
     case actionTypes.FETCH_BUOYS_FAIL:
       return Object.assign({}, state, { hasError: true, isFetching: false });

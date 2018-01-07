@@ -14,9 +14,9 @@ const propTypes = {
 
 class Favorite extends Component {
   render() {
-    const { data, buoy } = this.props;
+    const { data } = this.props;
     return (
-      <div className="favorite-item" key={buoy}>
+      <div className="favorite-item">
         <div>
           <span className="bold">Name: </span>
           {data[0].title}
