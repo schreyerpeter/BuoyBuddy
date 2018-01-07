@@ -90,7 +90,7 @@ html, body, #root, .App {
   background: white;
 }
 
-.favorite, .buoy-item-title, .buoy-item-title-favorite {
+.favorite-item, .buoy-item-title, .buoy-item-title-favorite {
   font-size: 13px;
 }
 
@@ -100,11 +100,11 @@ html, body, #root, .App {
   font-weight: bold;
 }
 
-.favorite:not(:last-child) {
+.favorite-item:not(:last-child) {
   border-bottom: 1px solid black;
 }
 
-.favorite, .buoy-item {
+.favorite-item, .buoy-item {
   padding: 5px;
 }
 
@@ -112,7 +112,8 @@ html, body, #root, .App {
   border-radius: 90px;
   height: 30px;
   cursor: pointer;
-  margin: 20px 0px;
+  margin-top: 10px;
+  outline: none;
 }
 
 .bold {

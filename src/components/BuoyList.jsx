@@ -10,7 +10,12 @@ const propTypes = {
         channel: PropTypes.array
       })
     })
-  })
+  }),
+  hasError: PropTypes.bool,
+  isFetching: PropTypes.bool,
+  fetchBuoys: PropTypes.func,
+  addFavorite: PropTypes.func,
+  removeFavorite: PropTypes.func
 };
 
 class BuoyList extends Component {
@@ -66,11 +71,11 @@ class BuoyList extends Component {
     return (
       <div id="buoys_container">
         <h4 id="buoys_title">Buoys within 100 nautical miles of 40°N, 73°W</h4>
-        {isFetching && <div>Loading...</div>}
+        {isFetching && <div id="buoys_fetching">Loading...</div>}
         {!hasError &&
           !isFetching && <div id="buoys_list_container">{buoysMap}</div>}
         {hasError && (
-          <div>
+          <div id="buoys_error">
             There was an error fetching your data - please refresh your browser.
           </div>
         )}

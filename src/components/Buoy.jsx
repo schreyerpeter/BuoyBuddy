@@ -4,19 +4,28 @@ import PropTypes from 'prop-types';
 import BuoyIcon from '../resources/buoy.ico';
 
 const propTypes = {
-  description: PropTypes.arrayOf(PropTypes.string),
-  'georss:point': PropTypes.arrayOf(PropTypes.string),
-  guid: PropTypes.arrayOf(PropTypes.string),
-  link: PropTypes.arrayOf(PropTypes.string),
-  pubDate: PropTypes.arrayOf(PropTypes.string),
-  title: PropTypes.arrayOf(PropTypes.string)
+  buoyData: PropTypes.shape({
+    description: PropTypes.arrayOf(PropTypes.string),
+    'georss:point': PropTypes.arrayOf(PropTypes.string),
+    guid: PropTypes.arrayOf(
+      PropTypes.shape({
+        _: PropTypes.string
+      })
+    ),
+    link: PropTypes.arrayOf(PropTypes.string),
+    pubDate: PropTypes.arrayOf(PropTypes.string),
+    title: PropTypes.arrayOf(PropTypes.string)
+  }),
+  handleClick: PropTypes.func,
+  isFavorite: PropTypes.bool,
+  inProgress: PropTypes.bool
 };
 
 class Buoy extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected: false,
+      isSelected: false,
       isFavorite: props.isFavorite
     };
   }
@@ -30,17 +39,17 @@ class Buoy extends Component {
   };
   handleMouseEnter = () => {
     this.setState({
-      selected: true
+      isSelected: true
     });
   };
   handleMouseLeave = () => {
     this.setState({
-      selected: false
+      isSelected: false
     });
   };
   render() {
     const { buoyData, inProgress } = this.props;
-    const { isFavorite, selected } = this.state;
+    const { isFavorite, isSelected } = this.state;
     const buttonText = isFavorite
       ? 'Remove from Favorites'
       : 'Add to Favorites';
@@ -63,7 +72,7 @@ class Buoy extends Component {
       >
         <div className={className}>{buoyData.title[0]}</div>
         <div className="button-container">
-          {selected && selectedElementContents}
+          {isSelected && selectedElementContents}
         </div>
       </div>
     );
