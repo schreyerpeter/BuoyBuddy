@@ -4,8 +4,8 @@ import BuoyList from './BuoyList';
 import { createStore } from 'redux';
 
 describe('BuoyList', () => {
-    it('should return bound actions', () => {
-        expect(BuoyList.WrappedComponent.propTypes).toHaveProperty('allBuoys');
-    })
-    //I'm not finding great documentation on testing containers.
+  it('should return bound actions', () => {
+    expect(BuoyList.WrappedComponent.propTypes).toHaveProperty('allBuoys');
+  });
+  //I'm not finding great documentation on testing containers.
 });

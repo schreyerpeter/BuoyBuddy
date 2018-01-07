@@ -8,6 +8,7 @@ export const fetchBuoys = () => async dispatch => {
   });
   try {
     const request = await axios.get('/buoys');
+    console.log('in');
     dispatch({
       type: actionTypes.FETCH_BUOYS_SUCCESS,
       payload: request
