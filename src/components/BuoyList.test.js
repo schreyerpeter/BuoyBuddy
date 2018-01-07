@@ -54,6 +54,28 @@ const props = {
   removeFavorite: () => {}
 };
 
+const fetchingProps = {
+  allBuoys: {
+    data: { },
+    hasError: false,
+    isFetching: true
+  },
+  fetchBuoys: () => {},
+  addFavorite: () => {},
+  removeFavorite: () => {}
+};
+
+const errorProps = {
+  allBuoys: {
+    data: { },
+    hasError: true,
+    isFetching: false
+  },
+  fetchBuoys: () => {},
+  addFavorite: () => {},
+  removeFavorite: () => {}
+};
+
 describe('BuoyList', () => {
   it('should render correctly', () => {
     const wrapper = shallow(<BuoyList {...props} />);
@@ -64,11 +86,11 @@ describe('BuoyList', () => {
     expect(wrapper.find('#buoys_container')).toHaveLength(1);
   });
   it('should render a buoys_error element if there is an error', () => {
-    const wrapper = shallow(<BuoyList {...props} hasError={true} />);
+    const wrapper = shallow(<BuoyList {...errorProps} hasError={true} />);
     expect(wrapper.find('#buoys_error')).toHaveLength(1);
   });
   it('should render a buoys_fetching element if is still fetching', () => {
-    const wrapper = shallow(<BuoyList {...props} isFetching={true} />);
+    const wrapper = shallow(<BuoyList {...fetchingProps} />);
     expect(wrapper.find('#buoys_fetching')).toHaveLength(1);
   });
   it('should return true if it matches an ID from the store with one in the NOAA data', () => {
