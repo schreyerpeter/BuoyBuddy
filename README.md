@@ -11,7 +11,7 @@ This app is for buoy groupies who want to keep tabs on their favorite buoys and 
 
 ### Prerequisites:
 
-You will need to have Node (https://nodejs.org/en/download/), Git (https://git-scm.com/book/en/v2/Getting-Started-Installing-Git), and a code editor (preferably VS Code - https://code.visualstudio.com/download).
+You will need to have Node (https://nodejs.org/en/download/) and Git (https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 
 ### Instructions:
 
