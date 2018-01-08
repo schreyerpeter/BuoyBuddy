@@ -15,30 +15,21 @@ export default function(
     case actionTypes.FETCH_FAVORITES_FAIL:
       return Object.assign({}, state, { hasError: true, isFetching: false });
     case actionTypes.ADD_FAVORITE_IN_PROGRESS:
+    case actionTypes.REMOVE_FAVORITE_IN_PROGRESS:
       return Object.assign({}, state, {
         inProgress: true
       });
     case actionTypes.ADD_FAVORITE_SUCCESS:
-      if (!state.data.includes(action.payload))
-        return Object.assign({}, state, {
-          data: state.data.concat(action.payload),
-          inProgress: false
-        });
-      else return state;
-    case actionTypes.ADD_FAVORITE_FAIL:
       return Object.assign({}, state, {
-        inProgress: false,
-        hasError: true
-      });
-    case actionTypes.REMOVE_FAVORITE_IN_PROGRESS:
-      return Object.assign({}, state, {
-        inProgress: true
+        data: state.data.concat(action.payload),
+        inProgress: false
       });
     case actionTypes.REMOVE_FAVORITE_SUCCESS:
       return Object.assign({}, state, {
         data: state.data.filter(item => item.id !== action.payload),
         inProgress: false
       });
+    case actionTypes.ADD_FAVORITE_FAIL:
     case actionTypes.REMOVE_FAVORITE_FAIL:
       return Object.assign({}, state, {
         inProgress: false,

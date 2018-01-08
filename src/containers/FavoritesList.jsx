@@ -6,8 +6,8 @@ import FavoritesListComponent from '../components/FavoritesList';
 
 const mapStateToProps = state => {
   return {
-    buoys: state.buoys,
-    favorites: state.favorites
+    allBuoys: state.allBuoys,
+    favoriteBuoys: state.favoriteBuoys
   };
 };
 

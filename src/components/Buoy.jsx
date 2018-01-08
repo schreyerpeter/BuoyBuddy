@@ -4,43 +4,38 @@ import PropTypes from 'prop-types';
 import BuoyIcon from '../resources/buoy.ico';
 
 const propTypes = {
-  description: PropTypes.arrayOf(PropTypes.string),
-  'georss:point': PropTypes.arrayOf(PropTypes.string),
-  guid: PropTypes.arrayOf(PropTypes.string),
-  link: PropTypes.arrayOf(PropTypes.string),
-  pubDate: PropTypes.arrayOf(PropTypes.string),
-  title: PropTypes.arrayOf(PropTypes.string)
+  buoyData: PropTypes.shape({
+    description: PropTypes.arrayOf(PropTypes.string),
+    'georss:point': PropTypes.arrayOf(PropTypes.string),
+    guid: PropTypes.arrayOf(
+      PropTypes.shape({
+        _: PropTypes.string
+      })
+    ),
+    link: PropTypes.arrayOf(PropTypes.string),
+    pubDate: PropTypes.arrayOf(PropTypes.string),
+    title: PropTypes.arrayOf(PropTypes.string)
+  }),
+  handleClick: PropTypes.func,
+  handleMouseLeave: PropTypes.func,
+  handleMouseEnter: PropTypes.func,
+  isFavorite: PropTypes.bool,
+  inProgress: PropTypes.bool,
+  isSelected: PropTypes.bool
 };
 
 class Buoy extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selected: false,
-      isFavorite: props.isFavorite
-    };
-  }
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      isFavorite: nextProps.isFavorite
-    });
-  }
-  handleClick = id => {
-    this.setState({ isFavorite: this.props.handleClick(id) });
+  handleClick = () => {
+    this.props.handleClick(this.props.buoyData.guid[0]['_']);
   };
   handleMouseEnter = () => {
-    this.setState({
-      selected: true
-    });
+    this.props.handleMouseEnter(this.props.buoyData.guid[0]['_']);
   };
   handleMouseLeave = () => {
-    this.setState({
-      selected: false
-    });
+    this.props.handleMouseLeave(this.props.buoyData.guid[0]['_']);
   };
   render() {
-    const { buoyData, inProgress } = this.props;
-    const { isFavorite, selected } = this.state;
+    const { buoyData, inProgress, isSelected, isFavorite } = this.props;
     const buttonText = isFavorite
       ? 'Remove from Favorites'
       : 'Add to Favorites';
@@ -48,10 +43,7 @@ class Buoy extends Component {
     const selectedElementContents = inProgress ? (
       <img className="loading" alt="Loading Icon" src={BuoyIcon} />
     ) : (
-      <button
-        className="favorite-button"
-        onClick={this.handleClick.bind(this, buoyData.guid[0]['_'])}
-      >
+      <button className="favorite-button" onClick={this.handleClick}>
         {buttonText}
       </button>
     );
@@ -63,7 +55,7 @@ class Buoy extends Component {
       >
         <div className={className}>{buoyData.title[0]}</div>
         <div className="button-container">
-          {selected && selectedElementContents}
+          {isSelected && selectedElementContents}
         </div>
       </div>
     );

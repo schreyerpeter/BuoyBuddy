@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Favorite from './Favorite';
 
 const propTypes = {
-  favorites: PropTypes.shape({
+  favoriteBuoys: PropTypes.shape({
     data: PropTypes.arrayOf(
       PropTypes.shape({
         title: PropTypes.string,
@@ -12,9 +12,11 @@ const propTypes = {
         description: PropTypes.string
       })
     ),
-    isFetching: PropTypes.bool
+    isFetching: PropTypes.bool,
+    hasError: PropTypes.bool,
+    inProgress: PropTypes.bool
   }),
-  buoys: PropTypes.shape({
+  allBuoys: PropTypes.shape({
     title: PropTypes.array,
     description: PropTypes.array
   }),
@@ -27,17 +29,17 @@ class FavoritesList extends Component {
     this.props.fetchFavorites();
   }
   render() {
-    const { favorites, buoys } = this.props;
-    let favoriteBuoyList = [];
+    const { favoriteBuoys, allBuoys } = this.props;
+    let favoritesMap = [];
     const hasData =
-      buoys &&
-      buoys.data &&
-      buoys.data.rss &&
-      buoys.data.rss.channel[0].item &&
-      favorites.data.length > 0;
+      allBuoys &&
+      allBuoys.data &&
+      allBuoys.data.rss &&
+      allBuoys.data.rss.channel[0].item &&
+      favoriteBuoys.data.length > 0;
     if (hasData) {
-      favoriteBuoyList = favorites.data.map(favoriteBuoy => {
-        const favoriteBuoyData = buoys.data.rss.channel[0].item.filter(
+      favoritesMap = favoriteBuoys.data.map(favoriteBuoy => {
+        const favoriteBuoyData = allBuoys.data.rss.channel[0].item.filter(
           b => b.guid[0]['_'] === favoriteBuoy.id
         );
         if (favoriteBuoyData.length === 0) {
@@ -52,17 +54,17 @@ class FavoritesList extends Component {
         );
       });
     }
-    return favoriteBuoyList.length > 0 ? (
+    return favoritesMap.length > 0 ? (
       <div id="favorites_container">
         <div id="favorites_header">
           <h4 id="favorites_title">Your Favorites</h4>
         </div>
-        <div id="favorites_list">{favoriteBuoyList}</div>
+        <div id="favorites_list">{favoritesMap}</div>
         <button
           id="remove_favorites_button"
           onClick={this.props.removeAllFavorites}
         >
-          Clear All Favorites
+          Remove All Favorites
         </button>
       </div>
     ) : null;
