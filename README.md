@@ -1,6 +1,6 @@
 # BuoyBuddy
 
-This app is for buoy groupies who want to keep tabs on their favorite buoys and check on current conditions.
+This app is for buoy groupies who want to keep tabs on their favorite buoys and check on current weather conditions.
 
 ## Users can:
 1. View a list of buoys within 100 nautical miles of 40°N, 73°W.
@@ -15,11 +15,12 @@ You will need to have Node (https://nodejs.org/en/download/), Git (https://git-s
 
 ### Instructions:
 
-1. Clone repo with either the command line or the GitHub UI
-* Through the command line just run `git clone https://github.com/schreyerpeter/BuoyBuddy.git`
-2. In one terminal window run `node app.js` - this launches the backend server.
-3. In another Bash terminal window run `yarn start` - this launches the front end server.
-4. That's all! Go favorite some buoys!
+1. Clone the BuoyBuddy repo by running `git clone https://github.com/schreyerpeter/BuoyBuddy.git` in a terminal window
+2. Run `cd BuoyBuddy` to navigate into the project folder
+3. Run `yarn install` to install all project dependencies
+4. Run `node app.js` to start the backend Express server
+5. Run `yarn start` - this should open the app in a browser window, but if it doesn't, navigate to `http://localhost:3000` 
+6. That's all! Go favorite some buoys!
 
 ## Running the tests
 
