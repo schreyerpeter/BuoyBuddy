@@ -24,8 +24,8 @@ You will need to have Node (https://nodejs.org/en/download/), Git (https://git-s
 
 ## Running the tests
 
-In the terminal run `npm test`
-The tests focus on the React components and Redux reducers.
+* In the terminal run `npm test`
+* The tests focus on the React components and Redux reducers.
 
 ## Built With
 
