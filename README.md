@@ -11,15 +11,15 @@ This app is for buoy groupies who want to keep tabs on their favorite buoys and 
 
 ### Prerequisites:
 
-You will need to have Node (https://nodejs.org/en/download/) and Git (https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+You will need to have Node (https://nodejs.org/en/download/) and Git (https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) installed, as well as having their CLIs configured.
 
 ### Instructions:
 
 1. Clone the BuoyBuddy repo by running `git clone https://github.com/schreyerpeter/BuoyBuddy.git` in a terminal window
 2. Run `cd BuoyBuddy` to navigate into the project folder
-3. Run `yarn install` to install all project dependencies
+3. Run `npm install` to install all project dependencies
 4. Run `node app.js` to start the backend Express server
-5. Run `yarn start` - this should open the app in a browser window, but if it doesn't, navigate to `http://localhost:3000` 
+5. In another terminal window, run `npm start` - this should open the app in a browser window, but if it doesn't, navigate to `http://localhost:3000` 
 6. That's all! Go favorite some buoys!
 
 ## Running the tests
