@@ -49,6 +49,9 @@ const props = {
     hasError: false,
     isFetching: false
   },
+  favoriteBuoys: {
+    data: [{ id: 'NDBC-PHBP1-20180106221800' }]
+  },
   fetchBuoys: () => {},
   addFavorite: () => {},
   removeFavorite: () => {}
@@ -56,7 +59,7 @@ const props = {
 
 const fetchingProps = {
   allBuoys: {
-    data: { },
+    data: {},
     hasError: false,
     isFetching: true
   },
@@ -67,7 +70,7 @@ const fetchingProps = {
 
 const errorProps = {
   allBuoys: {
-    data: { },
+    data: {},
     hasError: true,
     isFetching: false
   },
@@ -91,7 +94,7 @@ describe('BuoyList', () => {
   });
   it('should render a buoys_fetching element if is still fetching', () => {
     const wrapper = shallow(<BuoyList {...fetchingProps} />);
-    expect(wrapper.find('#buoys_fetching')).toHaveLength(1);
+    expect(wrapper.find('.loading')).toHaveLength(1);
   });
   it('should return true if it matches an ID from the store with one in the NOAA data', () => {
     const favoriteBuoys = {
@@ -104,9 +107,6 @@ describe('BuoyList', () => {
     const wrapper = shallow(
       <BuoyList {...props} favoriteBuoys={favoriteBuoys} />
     );
-    wrapper.setState({
-      dataSource: [{ guid: [{ _: 'NDBC-PHBP1-20180106221801' }] }]
-    });
     expect(wrapper.instance().handleClick('NDBC-PHBP1-20180106221801')).toEqual(
       true
     );
@@ -123,14 +123,11 @@ describe('BuoyList', () => {
     const wrapper = shallow(
       <BuoyList {...props} favoriteBuoys={favoriteBuoys} />
     );
-    wrapper.setState({
-      dataSource: [{ guid: [{ _: 'NDBC-PHBP1-20180106221801' }] }]
-    });
     expect(wrapper.instance().handleClick('NDBC-PHBP1-20180106221801')).toEqual(
       false
     );
   });
-  it('should set the state on componentDidUpdate', () => {
+  it('should update its state upon its children being moused over', () => {
     const favoriteBuoys = {
       data: [
         {
@@ -141,10 +138,12 @@ describe('BuoyList', () => {
     const wrapper = shallow(
       <BuoyList {...props} favoriteBuoys={favoriteBuoys} />
     );
-    wrapper.setState({ dataSource: [] });
-    wrapper.instance().componentDidUpdate();
-    expect(wrapper.state().dataSource).toEqual(
-      props.allBuoys.data.rss.channel[0].item
+    expect(wrapper.state().selectedChildId).toEqual(null);
+    wrapper.instance().handleMouseEnter('NDBC-PHBP1-20180106221801');
+    expect(wrapper.state().selectedChildId).toEqual(
+      'NDBC-PHBP1-20180106221801'
     );
+    wrapper.instance().handleMouseLeave();
+    expect(wrapper.state().selectedChildId).toEqual(null);
   });
 });

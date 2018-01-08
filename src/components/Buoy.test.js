@@ -17,7 +17,8 @@ const props = {
     pubDate: ['Sat, 06 Jan 2018 22:46:14 +0000'],
     title: ['Station PHBP1 - 8545240 - PHILADELPHIA, PA']
   },
-  handleClick: () => true
+  handleMouseEnter: () => {},
+  handleMouseLeave: () => {}
 };
 
 describe('Buoy', () => {
@@ -25,25 +26,47 @@ describe('Buoy', () => {
     const wrapper = shallow(<Buoy {...props} />);
     expect();
   });
-  it('should update its state upon receiving new props', () => {
-    const wrapper = shallow(<Buoy {...props} isFavorite={false} />);
-    expect(wrapper.state().isFavorite).toEqual(false);
-    wrapper.instance().componentWillReceiveProps({ isFavorite: true });
-    expect(wrapper.state().isFavorite).toEqual(true);
+  it('should click', () => {
+    const spy = jest.fn();
+    const wrapper = shallow(
+      <Buoy
+        {...props}
+        handleClick={spy}
+        isSelected={true}
+        inProgress={false}
+        isFavorite={true}
+      />
+    );
+    wrapper.find('.favorite-button').simulate('click');
+    expect(spy).toHaveBeenCalled();
   });
-  it('should update its state upon being clicked', () => {
-    const wrapper = shallow(<Buoy {...props} isFavorite={false} />);
-    expect(wrapper.state().isFavorite).toEqual(false);
-    wrapper.instance().handleClick();
-    expect(wrapper.state().isFavorite).toEqual(true);
+  it('should handle mouse enter', () => {
+    const spy = jest.fn();
+    const wrapper = shallow(
+      <Buoy
+        {...props}
+        handleMouseEnter={spy}
+        isSelected={true}
+        inProgress={false}
+        isFavorite={true}
+      />
+    );
+    wrapper.find('.buoy-item').simulate('mouseEnter');
+    expect(spy).toHaveBeenCalled();
   });
-  it('should update its state upon mouse enter and leave', () => {
-    const wrapper = shallow(<Buoy {...props} />);
-    expect(wrapper.state().isSelected).toEqual(false);
-    wrapper.instance().handleMouseEnter();
-    expect(wrapper.state().isSelected).toEqual(true);
-    wrapper.instance().handleMouseLeave();
-    expect(wrapper.state().isSelected).toEqual(false);
+  it('should handle mouse leave', () => {
+    const spy = jest.fn();
+    const wrapper = shallow(
+      <Buoy
+        {...props}
+        handleMouseLeave={spy}
+        isSelected={true}
+        inProgress={false}
+        isFavorite={true}
+      />
+    );
+    wrapper.find('.buoy-item').simulate('mouseLeave');
+    expect(spy).toHaveBeenCalled();
   });
   it("should render an element with a className of 'buoy-item'", () => {
     const wrapper = shallow(<Buoy {...props} />);
@@ -62,5 +85,17 @@ describe('Buoy', () => {
   it("should render an element with a className of 'buoy-item-title'", () => {
     const wrapper = shallow(<Buoy {...props} isFavorite={false} />);
     expect(wrapper.find('.buoy-item-title')).toHaveLength(1);
+  });
+  it("should render an element with a className of 'favorite-button' if it is favorite and selected", () => {
+    const wrapper = shallow(
+      <Buoy {...props} isFavorite={true} isSelected={true} />
+    );
+    expect(wrapper.find('.favorite-button')).toHaveLength(1);
+  });
+  it('', () => {
+    const wrapper = shallow(
+      <Buoy {...props} isFavorite={true} isSelected={true} />
+    );
+    wrapper.instance().handleMouseEnter();
   });
 });

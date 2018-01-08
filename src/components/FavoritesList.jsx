@@ -12,7 +12,9 @@ const propTypes = {
         description: PropTypes.string
       })
     ),
-    isFetching: PropTypes.bool
+    isFetching: PropTypes.bool,
+    hasError: PropTypes.bool,
+    inProgress: PropTypes.bool
   }),
   allBuoys: PropTypes.shape({
     title: PropTypes.array,
@@ -28,7 +30,7 @@ class FavoritesList extends Component {
   }
   render() {
     const { favoriteBuoys, allBuoys } = this.props;
-    let favoriteBuoyList = [];
+    let favoritesMap = [];
     const hasData =
       allBuoys &&
       allBuoys.data &&
@@ -36,7 +38,7 @@ class FavoritesList extends Component {
       allBuoys.data.rss.channel[0].item &&
       favoriteBuoys.data.length > 0;
     if (hasData) {
-      favoriteBuoyList = favoriteBuoys.data.map(favoriteBuoy => {
+      favoritesMap = favoriteBuoys.data.map(favoriteBuoy => {
         const favoriteBuoyData = allBuoys.data.rss.channel[0].item.filter(
           b => b.guid[0]['_'] === favoriteBuoy.id
         );
@@ -52,17 +54,17 @@ class FavoritesList extends Component {
         );
       });
     }
-    return favoriteBuoyList.length > 0 ? (
+    return favoritesMap.length > 0 ? (
       <div id="favorites_container">
         <div id="favorites_header">
           <h4 id="favorites_title">Your Favorites</h4>
         </div>
-        <div id="favorites_list">{favoriteBuoyList}</div>
+        <div id="favorites_list">{favoritesMap}</div>
         <button
           id="remove_favorites_button"
           onClick={this.props.removeAllFavorites}
         >
-          Clear All Favorites
+          Remove All Favorites
         </button>
       </div>
     ) : null;
