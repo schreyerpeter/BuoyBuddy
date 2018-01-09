@@ -52,9 +52,7 @@ const props = {
   favoriteBuoys: {
     data: [{ id: 'NDBC-PHBP1-20180106221800' }]
   },
-  fetchBuoys: () => {},
-  addFavorite: () => {},
-  removeFavorite: () => {}
+  fetchBuoys: () => {}
 };
 
 const fetchingProps = {
@@ -96,7 +94,8 @@ describe('BuoyList', () => {
     const wrapper = shallow(<BuoyList {...fetchingProps} />);
     expect(wrapper.find('.loading')).toHaveLength(1);
   });
-  it('should return true if it matches an ID from the store with one in the NOAA data', () => {
+  it('should call addFavorite if it matches an ID from the store with one in the NOAA data', () => {
+    const spy = jest.fn();
     const favoriteBuoys = {
       data: [
         {
@@ -105,14 +104,13 @@ describe('BuoyList', () => {
       ]
     };
     const wrapper = shallow(
-      <BuoyList {...props} favoriteBuoys={favoriteBuoys} />
+      <BuoyList {...props} addFavorite={spy} favoriteBuoys={favoriteBuoys} />
     );
-    expect(wrapper.instance().handleClick('NDBC-PHBP1-20180106221801')).toEqual(
-      true
-    );
-    expect(wrapper.instance().props.addFavorite('NDBC-PHBP1-20180106221801'));
+    wrapper.instance().handleClick('NDBC-PHBP1-20180106221801');
+    expect(spy).toHaveBeenCalled();
   });
-  it('should return false if it does not match an ID from the store with one in the NOAA data', () => {
+  it('should call removeFavorite if it does not match an ID from the store with one in the NOAA data', () => {
+    const spy = jest.fn();
     const favoriteBuoys = {
       data: [
         {
@@ -121,11 +119,10 @@ describe('BuoyList', () => {
       ]
     };
     const wrapper = shallow(
-      <BuoyList {...props} favoriteBuoys={favoriteBuoys} />
+      <BuoyList {...props} removeFavorite={spy} favoriteBuoys={favoriteBuoys} />
     );
-    expect(wrapper.instance().handleClick('NDBC-PHBP1-20180106221801')).toEqual(
-      false
-    );
+    wrapper.instance().handleClick('NDBC-PHBP1-20180106221801');
+    expect(spy).toHaveBeenCalled();
   });
   it('should update its state upon its children being moused over', () => {
     const favoriteBuoys = {

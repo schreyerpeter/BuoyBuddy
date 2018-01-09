@@ -36,9 +36,7 @@ class Buoy extends Component {
   };
   render() {
     const { buoyData, inProgress, isSelected, isFavorite } = this.props;
-    const buttonText = isFavorite
-      ? 'Remove from Favorites'
-      : 'Add to Favorites';
+    const buttonText = isFavorite ? 'Remove Favorite' : 'Add Favorite';
     const className = `buoy-item-title${isFavorite ? '-favorite' : ''}`;
     const selectedElementContents = inProgress ? (
       <img className="loading" alt="Loading Icon" src={BuoyIcon} />

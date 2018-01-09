@@ -28,6 +28,9 @@ class FavoritesList extends Component {
   componentDidMount() {
     this.props.fetchFavorites();
   }
+  filterBuoysForFavorites = (id, buoys) => {
+    return buoys.filter(b => b.guid[0]['_'] === id);
+  };
   render() {
     const { favoriteBuoys, allBuoys } = this.props;
     let favoritesMap = [];
@@ -39,8 +42,9 @@ class FavoritesList extends Component {
       favoriteBuoys.data.length > 0;
     if (hasData) {
       favoritesMap = favoriteBuoys.data.map(favoriteBuoy => {
-        const favoriteBuoyData = allBuoys.data.rss.channel[0].item.filter(
-          b => b.guid[0]['_'] === favoriteBuoy.id
+        const favoriteBuoyData = this.filterBuoysForFavorites(
+          favoriteBuoy.id,
+          allBuoys.data.rss.channel[0].item
         );
         if (favoriteBuoyData.length === 0) {
           this.props.removeAllFavorites();
@@ -54,20 +58,22 @@ class FavoritesList extends Component {
         );
       });
     }
-    return favoritesMap.length > 0 ? (
-      <div id="favorites_container">
-        <div id="favorites_header">
-          <h4 id="favorites_title">Your Favorites</h4>
+    if (favoritesMap.length > 0)
+      return (
+        <div id="favorites_container">
+          <div id="favorites_header">
+            <h4 id="favorites_title">Your Favorites</h4>
+          </div>
+          <div id="favorites_list">{favoritesMap}</div>
+          <button
+            id="remove_favorites_button"
+            onClick={this.props.removeAllFavorites}
+          >
+            Remove All Favorites
+          </button>
         </div>
-        <div id="favorites_list">{favoritesMap}</div>
-        <button
-          id="remove_favorites_button"
-          onClick={this.props.removeAllFavorites}
-        >
-          Remove All Favorites
-        </button>
-      </div>
-    ) : null;
+      );
+    else return null;
   }
 }
 

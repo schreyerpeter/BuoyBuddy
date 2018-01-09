@@ -32,17 +32,18 @@ class BuoyList extends Component {
   componentDidMount() {
     this.props.fetchBuoys();
   }
+  filterFavoritesForSelected = (id, favorites) => {
+    return favorites.filter(fav => fav.id === id);
+  };
   handleClick = id => {
     const { favoriteBuoys, allBuoys, addFavorite, removeFavorite } = this.props;
-    if (favoriteBuoys.data.filter(fav => fav.id === id).length === 0) {
-      const selectedFavorite = allBuoys.data.rss.channel[0].item.filter(
+    if (this.filterFavoritesForSelected(id, favoriteBuoys.data).length === 0) {
+      const selectedBuoy = allBuoys.data.rss.channel[0].item.filter(
         buoy => buoy.guid[0]['_'] === id
       )[0];
-      addFavorite(selectedFavorite);
-      return true;
+      addFavorite(selectedBuoy);
     } else {
       removeFavorite(id);
-      return false;
     }
   };
   handleMouseEnter = id => {

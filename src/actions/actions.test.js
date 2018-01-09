@@ -36,4 +36,5 @@ describe('async action creators', () => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
+  //skipping these tests for now until I figure out how to make the async actions work
 });
