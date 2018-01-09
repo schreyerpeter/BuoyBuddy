@@ -9,6 +9,23 @@ const app = express();
 const url = 'mongodb://BuoyBuddy:BuoyBuddy2018@ds241677.mlab.com:41677/buoybuddy';
 //Use this for local db 'mongodb://localhost:27017/buoybuddy'
 
+const connectToCollection = (db, collection) => {
+    return db.db('buoybuddy').collection(collection);
+}
+
+const closeConnection = (db, res, error, documents) => {
+    if (error){
+        db.close();
+        res.sendStatus(400);
+    } else if (documents) {
+        db.close();
+        res.send(documents);
+    } else {
+        db.close();
+        res.sendStatus(200);
+    }
+}
+
 app.use(bodyParser());
 app.use(express.static('public'));
 app.use((req,res,next) => {
@@ -28,75 +45,47 @@ app.get('/buoys', (req,res) => {
     });
 });
 app.get('/favorites', (req,res) => {
-    MongoClient.connect(url, function(err, db){
+    MongoClient.connect(url, (err, db) => {
         assert.equal(null,err);
-        const buoyBuddyDb = db.db('buoybuddy');
-        const favorites = buoyBuddyDb.collection('favorites');
+        const favorites = connectToCollection(db, 'favorites');
         favorites
         .find({})
-        .toArray(function(error, documents) {
-            if (error) {
-                res.sendStatus(400);
-                db.close();
-            } else {
-                res.send(documents);
-                db.close();
-            }
+        .toArray((error, documents) => {
+            closeConnection(db, res, error, documents);
         })
     })
 })
 app.post('/favorites/:id', (req,res) => {
-    MongoClient.connect(url, function(err, db){
+    MongoClient.connect(url, (err, db) => {
         assert.equal(null,err);
-        const buoyBuddyDb = db.db('buoybuddy');
-        const favorites = buoyBuddyDb.collection('favorites');
+        const favorites = connectToCollection(db, 'favorites');
         favorites
         .insertOne({
           id: req.params.id
-        }, function(error, results){
-          if (error){
-            db.close();
-            res.sendStatus(400);
-          } else {
-            db.close();
-            res.sendStatus(200);
-          }
+        }, error => {
+            closeConnection(db, res, error);
         })
     })
 });
 app.delete('/favorites/:id', (req,res) => {
     MongoClient.connect(url, function(err, db){
         assert.equal(null,err);
-        const buoyBuddyDb = db.db('buoybuddy');
-        const favorites = buoyBuddyDb.collection('favorites');
+        const favorites = connectToCollection(db, 'favorites');
         favorites
         .deleteOne({
           id: req.params.id
-        }, function(error, results){
-          if (error){
-            db.close();
-            res.sendStatus(400);
-          } else {
-            db.close();
-            res.sendStatus(200);
-          }
+        }, error => {
+            closeConnection(db, res, error);
         })
     })
 });
 app.delete('/favorites', (req,res) => {
-    MongoClient.connect(url, function(err, db){
+    MongoClient.connect(url, (err, db) => {
         assert.equal(null,err);
-        const buoyBuddyDb = db.db('buoybuddy');
-        const favorites = buoyBuddyDb.collection('favorites');
+        const favorites = connectToCollection(db, 'favorites');
         favorites
-        .deleteMany({}, function(error, results){
-          if (error){
-            db.close();
-            res.sendStatus(400);
-          } else {
-            db.close();
-            res.sendStatus(200);
-          }
+        .deleteMany({}, error => {
+            closeConnection(db, res, error);
         })
     })
 });
